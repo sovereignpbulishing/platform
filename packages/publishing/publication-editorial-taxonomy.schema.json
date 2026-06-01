@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/publication-editorial-taxonomy.json",
+  "title": "Publication Editorial Taxonomy and Discovery Filters",
+  "type": "object",
+  "required": ["publicationId", "publication", "editorial", "taxonomy", "filters", "trending"],
+  "properties": {
+    "publicationId": { "type": "string" },
+    "publication": {
+      "type": "object",
+      "required": ["name", "publicationType"],
+      "properties": {
+        "name": { "type": "string" },
+        "publicationType": { "type": "string", "enum": ["business", "news", "entertainment", "journal", "research", "education", "community", "brand", "personal", "live_media"] },
+        "sections": { "type": "array", "items": { "type": "string" } },
+        "series": { "type": "array", "items": { "type": "string" } },
+        "channels": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "editorial": {
+      "type": "object",
+      "properties": {
+        "lanes": { "type": "array", "items": { "type": "string", "enum": ["idea", "pitch", "assigned", "draft", "edit", "fact_check", "legal_review", "sponsor_review", "copy_edit", "scheduled", "published", "correction", "retraction", "archived"] } },
+        "roles": { "type": "array", "items": { "type": "string", "enum": ["author", "guest_author", "editor", "copy_editor", "fact_checker", "reviewer", "publisher", "sponsor", "legal_reviewer", "moderator"] } },
+        "separationOfDutyRequired": { "type": "boolean", "default": true },
+        "approvalRequiredBeforePublish": { "type": "boolean", "default": true }
+      }
+    },
+    "taxonomy": {
+      "type": "object",
+      "properties": {
+        "tags": { "type": "array", "items": { "$ref": "#/$defs/taxonomyTerm" } },
+        "categories": { "type": "array", "items": { "$ref": "#/$defs/taxonomyTerm" } },
+        "axes": { "type": "array", "items": { "$ref": "#/$defs/taxonomyAxis" } },
+        "schemaOrgAboutRequired": { "type": "boolean", "default": true },
+        "facetedDiscoveryEnabled": { "type": "boolean", "default": true }
+      }
+    },
+    "filters": {
+      "type": "object",
+      "properties": {
+        "locationFilters": { "type": "array", "items": { "type": "string", "enum": ["country", "region", "state", "city", "district", "venue", "campus", "building", "route", "geofence", "lat_long", "plus_code", "spatial_anchor"] } },
+        "geographyFilters": { "type": "array", "items": { "type": "string", "enum": ["global", "continent", "country", "regional", "local", "hyperlocal", "jurisdiction", "market", "language_region"] } },
+        "contentTypeFilters": { "type": "array", "items": { "type": "string", "enum": ["article", "news", "opinion", "report", "review", "claim_review", "research", "journal_article", "dataset", "book", "course", "podcast", "audio", "video", "live_video", "live_audio", "event", "software", "template", "plugin"] } },
+        "targetAudienceFilters": { "type": "array", "items": { "type": "string", "enum": ["general_public", "subscribers", "members", "authors", "editors", "reviewers", "researchers", "students", "educators", "business_leaders", "developers", "policy_makers", "investors", "customers", "employees", "community", "children", "professionals", "experts"] } },
+        "languageFilters": { "type": "array", "items": { "type": "string" } },
+        "timeFilters": { "type": "array", "items": { "type": "string", "enum": ["latest", "today", "this_week", "this_month", "evergreen", "embargoed", "expired", "event_bound", "seasonal", "archived"] } },
+        "trustFilters": { "type": "array", "items": { "type": "string", "enum": ["verified_source", "peer_reviewed", "editor_reviewed", "sponsored", "ai_assisted", "ai_generated", "signed", "high_authority", "correction_available", "retracted"] } }
+      }
+    },
+    "trending": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "default": true },
+        "signals": { "type": "array", "items": { "type": "string", "enum": ["views", "reads", "shares", "comments", "citations", "downloads", "saves", "subscriptions", "source_clicks", "agent_fetches", "purchases", "quality_weighted_engagement"] } },
+        "privacyCentric": { "type": "boolean", "default": true },
+        "locationAware": { "type": "boolean", "default": true },
+        "timeWindowed": { "type": "boolean", "default": true }
+      }
+    }
+  },
+  "$defs": {
+    "taxonomyTerm": {
+      "type": "object",
+      "required": ["termId", "label"],
+      "properties": {
+        "termId": { "type": "string" },
+        "label": { "type": "string" },
+        "slug": { "type": "string" },
+        "parentTermId": { "type": "string" },
+        "schemaOrgSameAs": { "type": "string" }
+      }
+    },
+    "taxonomyAxis": {
+      "type": "object",
+      "required": ["axisId", "name", "axisType"],
+      "properties": {
+        "axisId": { "type": "string" },
+        "name": { "type": "string" },
+        "axisType": { "type": "string", "enum": ["topic", "category", "tag", "location", "geography", "content_type", "target_audience", "industry", "language", "time", "authority", "trust", "business_function", "content_intent", "rights", "sponsor", "event", "device"] },
+        "multiSelect": { "type": "boolean", "default": true },
+        "terms": { "type": "array", "items": { "$ref": "#/$defs/taxonomyTerm" } }
+      }
+    }
+  }
+}

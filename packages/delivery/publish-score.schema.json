@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/publish-score.json",
+  "title": "Publish Score",
+  "type": "object",
+  "required": ["workId", "publishScore", "status", "dimensions"],
+  "properties": {
+    "workId": { "type": "string" },
+    "publishScore": { "type": "number", "minimum": 0, "maximum": 100 },
+    "status": { "type": "string", "enum": ["ready", "ready_with_warning", "review_required", "blocked"] },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "metadataScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "schemaScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "licenseScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "attributionScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "sourceVerificationScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "authorityScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "responsibilityScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "disclosureScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "reviewScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "accessibilityScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "policyScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "deliveryReadinessScore": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "formula": { "type": "string" },
+    "blockingIssues": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "calculatedAt": { "type": "string", "format": "date-time" },
+    "calculatedBy": { "type": "string" }
+  }
+}

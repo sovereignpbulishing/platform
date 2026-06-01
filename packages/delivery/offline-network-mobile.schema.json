@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/offline-network-mobile.json",
+  "title": "Offline Support Network First Architecture and Mobile Optimization",
+  "type": "object",
+  "required": ["tenantId", "offline", "networkFirst", "mobile", "sync", "governance"],
+  "properties": {
+    "tenantId": { "type": "string" },
+    "offline": {
+      "type": "object",
+      "properties": {
+        "offlineReadingEnabled": { "type": "boolean", "default": true },
+        "offlineDraftingEnabled": { "type": "boolean", "default": true },
+        "offlineReviewEnabled": { "type": "boolean", "default": false },
+        "offlinePublishingAllowed": { "type": "boolean", "default": false },
+        "offlineBundlesEnabled": { "type": "boolean", "default": true },
+        "cacheableContentTypes": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["article", "book", "journal_issue", "dataset_metadata", "audio", "video", "image", "template", "theme", "ui_shell", "translation", "citation_metadata"] }
+        },
+        "sensitiveContentCachePolicy": { "type": "string", "enum": ["never_cache", "encrypted_cache", "tenant_policy"] }
+      }
+    },
+    "networkFirst": {
+      "type": "object",
+      "properties": {
+        "strategy": { "type": "string", "enum": ["network_first_cache_fallback", "stale_while_revalidate", "cache_first_for_static_assets", "offline_first_for_drafts"] },
+        "timeoutMs": { "type": "integer", "minimum": 0 },
+        "fallbackEnabled": { "type": "boolean", "default": true },
+        "backgroundRefreshEnabled": { "type": "boolean", "default": true },
+        "conflictDetectionRequired": { "type": "boolean", "default": true }
+      }
+    },
+    "mobile": {
+      "type": "object",
+      "properties": {
+        "mobileFirstRequired": { "type": "boolean", "default": true },
+        "pwaSupported": { "type": "boolean", "default": true },
+        "responsiveRequired": { "type": "boolean", "default": true },
+        "lowBandwidthMode": { "type": "boolean", "default": true },
+        "adaptiveMediaEnabled": { "type": "boolean", "default": true },
+        "touchOptimized": { "type": "boolean", "default": true },
+        "reducedMotionSupported": { "type": "boolean", "default": true },
+        "installPromptAllowed": { "type": "boolean", "default": true },
+        "pushNotificationsAllowed": { "type": "boolean", "default": false }
+      }
+    },
+    "sync": {
+      "type": "object",
+      "properties": {
+        "backgroundSyncEnabled": { "type": "boolean", "default": true },
+        "syncEntities": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["draft", "comment", "review", "annotation", "bookmark", "reading_progress", "template", "translation", "asset_metadata"] }
+        },
+        "conflictResolution": { "type": "string", "enum": ["manual", "last_write_wins", "merge_patch", "crdt_ready"] },
+        "retryPolicy": { "type": "string", "enum": ["none", "fixed", "exponential_backoff"] },
+        "syncAuditRequired": { "type": "boolean", "default": true }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "licenseMetadataStoredOffline": { "type": "boolean", "default": true },
+        "aiDisclosureStoredOffline": { "type": "boolean", "default": true },
+        "sourceMetadataStoredOffline": { "type": "boolean", "default": true },
+        "analyticsBufferedWithConsentOnly": { "type": "boolean", "default": true },
+        "offlinePersonalDataEncrypted": { "type": "boolean", "default": true },
+        "clearOfflineDataSupported": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}

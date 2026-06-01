@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/source-authority.json",
+  "title": "Source Verification and Authority",
+  "type": "object",
+  "required": ["sourceId", "sourceType", "authorityScore", "verificationStatus"],
+  "properties": {
+    "sourceId": { "type": "string" },
+    "sourceType": {
+      "type": "string",
+      "enum": ["person", "organization", "publication", "journal", "publisher", "sponsor", "creative_work", "dataset", "software", "webpage", "claim", "citation"]
+    },
+    "name": { "type": "string" },
+    "url": { "type": "string" },
+    "canonicalUrl": { "type": "string" },
+    "identifier": { "type": "string" },
+    "identifierType": {
+      "type": "string",
+      "enum": ["doi", "orcid", "ror", "isbn", "issn", "did", "url", "handle", "internal_id", "other"]
+    },
+    "verificationStatus": {
+      "type": "string",
+      "enum": ["unverified", "self_declared", "machine_checked", "human_reviewed", "institution_verified", "cryptographically_verified", "disputed", "revoked"]
+    },
+    "authorityScore": { "type": "number", "minimum": 0, "maximum": 100 },
+    "authoritySignals": {
+      "type": "object",
+      "properties": {
+        "identityVerified": { "type": "boolean" },
+        "domainReputation": { "type": "number", "minimum": 0, "maximum": 100 },
+        "citationCount": { "type": "integer", "minimum": 0 },
+        "peerReviewed": { "type": "boolean" },
+        "editoriallyReviewed": { "type": "boolean" },
+        "institutionalAffiliationVerified": { "type": "boolean" },
+        "fundingDisclosurePresent": { "type": "boolean" },
+        "conflictDisclosurePresent": { "type": "boolean" },
+        "licenseVerified": { "type": "boolean" },
+        "provenanceVerified": { "type": "boolean" },
+        "contentHashVerified": { "type": "boolean" },
+        "retractionOrCorrectionFound": { "type": "boolean" }
+      }
+    },
+    "verificationEvidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["evidenceType", "evidenceValue"],
+        "properties": {
+          "evidenceType": {
+            "type": "string",
+            "enum": ["doi_lookup", "orcid_lookup", "ror_lookup", "domain_check", "signature_check", "hash_check", "human_review", "editorial_review", "peer_review", "citation_graph", "license_check", "policy_check"]
+          },
+          "evidenceValue": { "type": "string" },
+          "checkedAt": { "type": "string", "format": "date-time" },
+          "checkedBy": { "type": "string" },
+          "result": { "type": "string", "enum": ["pass", "warn", "fail", "unknown"] }
+        }
+      }
+    },
+    "riskFlags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["anonymous_source", "sponsor_conflict", "missing_license", "missing_author", "broken_citation", "unverified_claim", "domain_mismatch", "possible_plagiarism", "retracted_source", "stale_source", "ai_generated_without_disclosure", "low_authority"]
+      }
+    },
+    "lastVerifiedAt": { "type": "string", "format": "date-time" },
+    "reviewRequired": { "type": "boolean", "default": false }
+  }
+}

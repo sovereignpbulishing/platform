@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/gated-artifact-operator-tool-trust.json",
+  "title": "Gated Artifact Operator Tool Trust and Protocol Version",
+  "type": "object",
+  "required": ["gateId", "gateType", "protocols", "artifact", "operator", "tool", "trustDecision"],
+  "properties": {
+    "gateId": { "type": "string" },
+    "gateType": { "type": "string", "enum": ["draft_save", "review_submit", "publish_request", "publish_approval", "edge_bundle_create", "cdn_push", "registry_publish", "plugin_install", "mcp_tool_call", "api_call", "correction", "retraction", "commerce_release"] },
+    "protocols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "version", "purpose"],
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "purpose": { "type": "string", "enum": ["signing", "verification", "identity", "authorization", "policy", "registry", "mcp", "api", "commerce", "delivery", "observability"] },
+          "profile": { "type": "string" },
+          "uri": { "type": "string" }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["artifactId", "artifactType", "hash", "signatureStatus", "trustScore"],
+      "properties": {
+        "artifactId": { "type": "string" },
+        "artifactType": { "type": "string", "enum": ["creative_work", "metadata", "json_ld", "asset", "edge_bundle", "registry_package", "plugin", "template", "workflow", "policy", "api_contract", "mcp_tool", "model_output"] },
+        "version": { "type": "string" },
+        "hash": { "type": "string" },
+        "signatureStatus": { "type": "string", "enum": ["valid", "invalid", "missing", "expired", "revoked"] },
+        "trustScore": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "operator": {
+      "type": "object",
+      "required": ["operatorId", "operatorType", "trustScore"],
+      "properties": {
+        "operatorId": { "type": "string" },
+        "operatorType": { "type": "string", "enum": ["human", "organization", "platform", "agent", "automation", "service_account"] },
+        "role": { "type": "string" },
+        "identityVerified": { "type": "boolean" },
+        "trustScore": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "tool": {
+      "type": "object",
+      "required": ["toolId", "toolType", "version", "trustScore"],
+      "properties": {
+        "toolId": { "type": "string" },
+        "toolType": { "type": "string", "enum": ["editor", "ai_model", "agent", "plugin", "extension", "mcp_tool", "api_client", "workflow", "ci_job", "delivery_worker"] },
+        "version": { "type": "string" },
+        "publisher": { "type": "string" },
+        "signatureStatus": { "type": "string", "enum": ["valid", "invalid", "missing", "expired", "revoked"] },
+        "trustScore": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "trustDecision": {
+      "type": "object",
+      "required": ["decision", "policyId", "decidedAt"],
+      "properties": {
+        "decision": { "type": "string", "enum": ["allow", "allow_with_warning", "require_review", "block"] },
+        "policyId": { "type": "string" },
+        "policyVersion": { "type": "string" },
+        "minimumArtifactTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "minimumOperatorTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "minimumToolTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "decidedAt": { "type": "string", "format": "date-time" },
+        "decidedBy": { "type": "string" }
+      }
+    }
+  }
+}

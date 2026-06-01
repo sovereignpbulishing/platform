@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/trust-gate-validation.json",
+  "title": "Trust Gate Validation Check",
+  "type": "object",
+  "required": ["validationId", "gateType", "workId", "checks", "result"],
+  "properties": {
+    "validationId": { "type": "string" },
+    "workId": { "type": "string" },
+    "gateType": {
+      "type": "string",
+      "enum": ["draft_save", "review_submit", "editorial_approval", "publish_request", "publish_approval", "edge_bundle_create", "cdn_push", "registry_publish", "correction", "retraction", "commerce_release"]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["checkName", "status"],
+        "properties": {
+          "checkName": {
+            "type": "string",
+            "enum": [
+              "schema_valid",
+              "metadata_complete",
+              "license_present",
+              "attribution_complete",
+              "source_verified",
+              "authority_score_met",
+              "ai_disclosure_present",
+              "responsible_party_assigned",
+              "sponsor_disclosure_present",
+              "content_signed",
+              "artifact_signature_valid",
+              "operator_identity_verified",
+              "operator_trust_score_met",
+              "tool_signature_valid",
+              "tool_trust_score_met",
+              "publisher_trust_score_met",
+              "author_trust_score_met",
+              "editor_trust_score_met",
+              "protocol_version_recorded",
+              "policy_decision_recorded",
+              "publish_score_met",
+              "privacy_policy_met",
+              "delivery_policy_met"
+            ]
+          },
+          "status": { "type": "string", "enum": ["pass", "warn", "fail", "not_applicable"] },
+          "score": { "type": "number", "minimum": 0, "maximum": 100 },
+          "minimumRequired": { "type": "number", "minimum": 0, "maximum": 100 },
+          "evidenceRef": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "protocols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "version", "purpose"],
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "purpose": { "type": "string" }
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "required": ["decision", "validatedAt"],
+      "properties": {
+        "decision": { "type": "string", "enum": ["allow", "allow_with_warning", "require_review", "block"] },
+        "blockingIssues": { "type": "array", "items": { "type": "string" } },
+        "warnings": { "type": "array", "items": { "type": "string" } },
+        "validatedAt": { "type": "string", "format": "date-time" },
+        "validatedBy": { "type": "string" }
+      }
+    }
+  }
+}

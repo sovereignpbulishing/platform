@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/party-roles.json",
+  "title": "Author Publisher Sponsor Role Contract",
+  "type": "object",
+  "required": ["workId", "parties"],
+  "properties": {
+    "workId": { "type": "string" },
+    "parties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["partyId", "role", "displayName"],
+        "properties": {
+          "partyId": { "type": "string" },
+          "displayName": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": [
+              "author",
+              "co_author",
+              "publisher",
+              "sponsor",
+              "funder",
+              "rights_holder",
+              "editor",
+              "reviewer",
+              "maintainer"
+            ]
+          },
+          "creditLine": { "type": "string" },
+          "publicProfileUrl": { "type": "string" },
+          "orcid": { "type": "string" },
+          "did": { "type": "string" },
+          "affiliation": { "type": "string" },
+          "contributionStatement": { "type": "string" },
+          "rights": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "create",
+                "edit",
+                "review",
+                "approve",
+                "publish",
+                "distribute",
+                "commercialize",
+                "license",
+                "withdraw",
+                "archive"
+              ]
+            }
+          },
+          "disclosureRequired": { "type": "boolean", "default": false },
+          "disclosureText": { "type": "string" },
+          "commercialSharePercent": { "type": "number", "minimum": 0, "maximum": 100 },
+          "isPubliclyCredited": { "type": "boolean", "default": true },
+          "isRightsHolder": { "type": "boolean", "default": false },
+          "verifiedAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

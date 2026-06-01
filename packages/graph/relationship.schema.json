@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/relationship.json",
+  "title": "Relationship Primitive",
+  "type": "object",
+  "required": ["relationshipId", "subject", "predicate", "object", "status", "provenance"],
+  "properties": {
+    "relationshipId": { "type": "string" },
+    "subject": { "$ref": "#/$defs/nodeRef" },
+    "predicate": {
+      "type": "string",
+      "enum": [
+        "authored_by",
+        "co_authored_by",
+        "edited_by",
+        "reviewed_by",
+        "approved_by",
+        "published_by",
+        "sponsored_by",
+        "funded_by",
+        "rights_held_by",
+        "licensed_by",
+        "cites",
+        "references",
+        "is_based_on",
+        "derived_from",
+        "translated_from",
+        "corrects",
+        "retracts",
+        "supersedes",
+        "uses",
+        "owns",
+        "manages",
+        "delegates_to",
+        "member_of",
+        "affiliated_with",
+        "verifies",
+        "trusts",
+        "distributes_to",
+        "projected_as",
+        "generated_by",
+        "assisted_by",
+        "executed_by",
+        "governed_by",
+        "validated_by",
+        "decided_by",
+        "evidenced_by"
+      ]
+    },
+    "object": { "$ref": "#/$defs/nodeRef" },
+    "status": { "type": "string", "enum": ["active", "pending", "disputed", "revoked", "expired", "superseded"] },
+    "validFrom": { "type": "string", "format": "date-time" },
+    "validUntil": { "type": "string", "format": "date-time" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 100 },
+    "trustImpact": { "type": "number", "minimum": -100, "maximum": 100 },
+    "policyRef": { "type": "string" },
+    "evidenceRefs": { "type": "array", "items": { "type": "string" } },
+    "provenance": {
+      "type": "object",
+      "required": ["source", "recordedAt"],
+      "properties": {
+        "source": { "type": "string" },
+        "sourceType": { "type": "string", "enum": ["system", "human", "import", "api", "mcp", "registry", "verification", "policy", "audit"] },
+        "recordedBy": { "type": "string" },
+        "recordedAt": { "type": "string", "format": "date-time" },
+        "signatureStatus": { "type": "string", "enum": ["valid", "invalid", "missing", "expired", "revoked", "not_required"] }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "auditEventId": { "type": "string" },
+        "changeReason": { "type": "string" },
+        "appealAllowed": { "type": "boolean", "default": true }
+      }
+    }
+  },
+  "$defs": {
+    "nodeRef": {
+      "type": "object",
+      "required": ["id", "type"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": [
+            "person",
+            "organization",
+            "author",
+            "guest_author",
+            "editor",
+            "reviewer",
+            "publisher",
+            "sponsor",
+            "agent_application",
+            "tool",
+            "model",
+            "service",
+            "creative_work",
+            "artifact",
+            "dataset",
+            "source",
+            "citation",
+            "policy",
+            "decision",
+            "evidence",
+            "projection",
+            "distribution_receipt",
+            "registry_package"
+          ]
+        },
+        "schemaOrgType": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/ecosystem-policy.json",
+  "title": "Ecosystem Integration Collaboration and Design System Policy",
+  "type": "object",
+  "required": ["tenantId", "upstreamTools", "downstreamIntegrations", "extensibility", "collaboration", "authorPolicy", "guestAuthorPolicy", "designSystem", "designLibrary", "uiKit"],
+  "properties": {
+    "tenantId": { "type": "string" },
+    "upstreamTools": { "type": "array", "items": { "type": "string", "enum": ["editor", "cms", "document_store", "citation_manager", "ai_tool", "design_tool", "code_repository", "data_repository", "media_library", "identity_provider", "analytics_source"] } },
+    "downstreamIntegrations": { "type": "array", "items": { "type": "string", "enum": ["website", "newsletter", "rss", "activitypub", "search_index", "social_network", "commerce_marketplace", "doi_registry", "repository", "analytics_platform", "crm", "lms", "community_platform", "webhook", "api_client"] } },
+    "extensibility": {
+      "type": "object",
+      "properties": {
+        "pluginsAllowed": { "type": "boolean" },
+        "themesAllowed": { "type": "boolean" },
+        "customSchemasAllowed": { "type": "boolean" },
+        "customWorkflowsAllowed": { "type": "boolean" },
+        "customAiSkillsAllowed": { "type": "boolean" },
+        "registryRequired": { "type": "boolean" },
+        "signatureRequired": { "type": "boolean" },
+        "sandboxRequired": { "type": "boolean" },
+        "permissionReviewRequired": { "type": "boolean" }
+      }
+    },
+    "collaboration": {
+      "type": "object",
+      "properties": {
+        "externalCollaboratorsAllowed": { "type": "boolean" },
+        "defaultRole": { "type": "string", "enum": ["viewer", "commenter", "contributor", "editor", "reviewer", "publisher"] },
+        "approvalRequired": { "type": "boolean" },
+        "roleExpirationRequired": { "type": "boolean" },
+        "auditRequired": { "type": "boolean" }
+      }
+    },
+    "authorPolicy": {
+      "type": "object",
+      "properties": {
+        "authorVerificationRequired": { "type": "boolean" },
+        "orcidSupported": { "type": "boolean" },
+        "didSupported": { "type": "boolean" },
+        "conflictDisclosureRequired": { "type": "boolean" },
+        "aiDisclosureRequired": { "type": "boolean" },
+        "licenseSelectionRequired": { "type": "boolean" }
+      }
+    },
+    "guestAuthorPolicy": {
+      "type": "object",
+      "properties": {
+        "guestAuthorsAllowed": { "type": "boolean" },
+        "sponsorReviewRequired": { "type": "boolean" },
+        "publisherApprovalRequired": { "type": "boolean" },
+        "temporaryAccessOnly": { "type": "boolean" },
+        "publicGuestBadgeRequired": { "type": "boolean" },
+        "bioRequired": { "type": "boolean" },
+        "affiliationRequired": { "type": "boolean" }
+      }
+    },
+    "designSystem": {
+      "type": "object",
+      "properties": {
+        "brandTokensRequired": { "type": "boolean" },
+        "accessibilityStandard": { "type": "string", "enum": ["wcag_2_1_aa", "wcag_2_2_aa", "tenant_defined"] },
+        "responsiveRequired": { "type": "boolean" },
+        "darkModeSupported": { "type": "boolean" },
+        "localizationSupported": { "type": "boolean" },
+        "designReviewRequired": { "type": "boolean" }
+      }
+    },
+    "designLibrary": {
+      "type": "object",
+      "properties": {
+        "templatesAllowed": { "type": "boolean" },
+        "blocksAllowed": { "type": "boolean" },
+        "patternsAllowed": { "type": "boolean" },
+        "iconsAllowed": { "type": "boolean" },
+        "mediaAssetsAllowed": { "type": "boolean" },
+        "licenseMetadataRequired": { "type": "boolean" },
+        "registryDistributionAllowed": { "type": "boolean" }
+      }
+    },
+    "uiKit": {
+      "type": "object",
+      "properties": {
+        "componentsVersioned": { "type": "boolean" },
+        "storybookRequired": { "type": "boolean" },
+        "visualRegressionRequired": { "type": "boolean" },
+        "componentAccessibilityTestsRequired": { "type": "boolean" },
+        "allowedComponentTypes": { "type": "array", "items": { "type": "string", "enum": ["layout", "navigation", "editor", "reader", "card", "table", "chart", "form", "workflow", "commerce", "trust_badge", "metadata_panel", "comment", "review", "profile"] } }
+      }
+    }
+  }
+}

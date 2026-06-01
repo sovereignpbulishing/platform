@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/privacy-centric-publisher-analytics.json",
+  "title": "Privacy Centric Publisher Analytics",
+  "type": "object",
+  "required": ["tenantId", "publisherId", "analyticsPolicy", "measurement", "traces", "engagement", "privacy"],
+  "properties": {
+    "tenantId": { "type": "string" },
+    "publisherId": { "type": "string" },
+    "analyticsPolicy": {
+      "type": "object",
+      "required": ["enabled", "purpose", "consentRequired", "readerDataSaleProhibited"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "purpose": { "type": "array", "items": { "type": "string", "enum": ["editorial_quality", "audience_insight", "accessibility", "performance", "discovery", "subscription", "commerce", "community_health", "source_quality"] } },
+        "consentRequired": { "type": "boolean" },
+        "readerDataSaleProhibited": { "type": "boolean", "default": true },
+        "crossTenantTrackingProhibited": { "type": "boolean", "default": true },
+        "sensitiveTargetingProhibited": { "type": "boolean", "default": true }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "properties": {
+        "aggregationLevel": { "type": "string", "enum": ["anonymous", "cohort", "work", "publication", "tenant"] },
+        "retentionDays": { "type": "integer", "minimum": 0 },
+        "metrics": { "type": "array", "items": { "type": "string", "enum": ["views", "unique_estimated_visits", "reading_time", "scroll_depth", "downloads", "shares", "comments", "citations", "citation_exports", "newsletter_opens", "subscriptions", "conversions", "refunds", "source_clicks", "search_impressions", "agent_fetches", "api_reads", "accessibility_events", "performance_web_vitals"] } }
+      }
+    },
+    "traces": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "traceTypes": { "type": "array", "items": { "type": "string", "enum": ["publish_trace", "distribution_trace", "cdn_trace", "search_index_trace", "agent_fetch_trace", "newsletter_trace", "commerce_trace", "review_trace", "correction_trace", "retraction_trace"] } },
+        "readerIdentityRemoved": { "type": "boolean", "default": true },
+        "policyDecisionsLinked": { "type": "boolean", "default": true }
+      }
+    },
+    "engagement": {
+      "type": "object",
+      "properties": {
+        "allowedSignals": { "type": "array", "items": { "type": "string", "enum": ["read", "save", "share", "comment", "subscribe", "cite", "download", "follow_author", "follow_journal", "purchase", "donate", "report_issue", "request_correction"] } },
+        "darkPatternOptimizationProhibited": { "type": "boolean", "default": true },
+        "qualityWeightedEngagement": { "type": "boolean", "default": true }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "properties": {
+        "personalDataMinimized": { "type": "boolean", "default": true },
+        "ipTruncationRequired": { "type": "boolean", "default": true },
+        "userAgentReductionRequired": { "type": "boolean", "default": true },
+        "doNotTrackRespected": { "type": "boolean", "default": true },
+        "exportSupported": { "type": "boolean", "default": true },
+        "deletionSupported": { "type": "boolean", "default": true },
+        "publicAnalyticsDisclosureRequired": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}

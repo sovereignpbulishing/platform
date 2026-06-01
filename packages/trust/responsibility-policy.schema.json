@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/responsibility-policy.json",
+  "title": "Responsibility AI Policy and Disclaimer",
+  "type": "object",
+  "required": ["workId", "responsibleParty", "aiPolicy", "disclaimer"],
+  "properties": {
+    "workId": { "type": "string" },
+    "responsibleParty": {
+      "type": "object",
+      "required": ["partyId", "displayName", "role"],
+      "properties": {
+        "partyId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": {
+          "type": "string",
+          "enum": ["author", "editor", "publisher", "institution", "journal", "sponsor", "platform_operator"]
+        },
+        "contactUrl": { "type": "string" },
+        "acceptsResponsibility": { "type": "boolean", "default": true },
+        "responsibilityStatement": { "type": "string" }
+      }
+    },
+    "accountabilityChain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["partyId", "role", "responsibilityType"],
+        "properties": {
+          "partyId": { "type": "string" },
+          "role": { "type": "string" },
+          "responsibilityType": {
+            "type": "string",
+            "enum": ["content_accuracy", "editorial_approval", "legal_review", "ai_use_review", "source_verification", "sponsor_disclosure", "publication_approval", "correction_response"]
+          },
+          "approvedAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "aiPolicy": {
+      "type": "object",
+      "required": ["policyId", "aiUseAllowed", "humanReviewRequired", "publicDisclosureRequired"],
+      "properties": {
+        "policyId": { "type": "string" },
+        "policyVersion": { "type": "string" },
+        "aiUseAllowed": { "type": "boolean" },
+        "allowedUses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["ideation", "outline", "drafting", "editing", "translation", "summarization", "fact_checking", "citation_suggestion", "seo_metadata", "image_generation", "code_generation", "data_analysis"]
+          }
+        },
+        "prohibitedUses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["undisclosed_ai_authorship", "fabricated_citations", "fabricated_sources", "impersonation", "deepfake_without_consent", "medical_advice_without_review", "legal_advice_without_review", "financial_advice_without_review", "plagiarism", "rights_evasion"]
+          }
+        },
+        "humanReviewRequired": { "type": "boolean" },
+        "expertReviewRequired": { "type": "boolean", "default": false },
+        "publicDisclosureRequired": { "type": "boolean" },
+        "modelDisclosureRequired": { "type": "boolean", "default": true },
+        "promptDisclosureRequired": { "type": "boolean", "default": false },
+        "sourceVerificationRequired": { "type": "boolean", "default": true },
+        "licenseCheckRequired": { "type": "boolean", "default": true }
+      }
+    },
+    "disclaimer": {
+      "type": "object",
+      "required": ["disclaimerType", "displayText", "displayRequired"],
+      "properties": {
+        "disclaimerType": {
+          "type": "string",
+          "enum": ["ai_assisted", "ai_generated", "opinion", "sponsored", "educational", "research_preprint", "not_medical_advice", "not_legal_advice", "not_financial_advice", "experimental", "editorial"]
+        },
+        "displayText": { "type": "string" },
+        "displayRequired": { "type": "boolean" },
+        "displayLocation": {
+          "type": "string",
+          "enum": ["top_of_work", "bottom_of_work", "metadata_panel", "paywall_screen", "citation_export", "all"]
+        },
+        "machineReadable": { "type": "boolean", "default": true }
+      }
+    },
+    "correctionPolicy": {
+      "type": "object",
+      "properties": {
+        "correctionsAllowed": { "type": "boolean", "default": true },
+        "retractionsAllowed": { "type": "boolean", "default": true },
+        "correctionContactUrl": { "type": "string" },
+        "responseSlaHours": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "gate": "publish_approval",
+  "assignments": [
+    { "role": "author", "actor_id": "user_author_001" },
+    { "role": "reviewer", "actor_id": "user_reviewer_001" },
+    { "role": "approver", "actor_id": "user_approver_001" },
+    { "role": "publisher", "actor_id": "org_publisher_001" }
+  ]
+}

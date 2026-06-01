@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/universal-artifact-publishing-protocol.json",
+  "title": "Universal Artifact Publishing Protocol",
+  "type": "object",
+  "required": ["protocol", "artifact", "publisher", "checks", "decision"],
+  "properties": {
+    "protocol": {
+      "type": "object",
+      "required": ["name", "version", "purpose"],
+      "properties": {
+        "name": { "type": "string", "const": "UniversalArtifactPublishingProtocol" },
+        "version": { "type": "string" },
+        "purpose": { "type": "string", "const": "artifact_publishing" },
+        "compatibleWith": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["artifactId", "artifactType", "version", "hash", "isExecutable"],
+      "properties": {
+        "artifactId": { "type": "string" },
+        "artifactType": {
+          "type": "string",
+          "enum": ["creative_work", "metadata", "json_ld", "asset", "media", "dataset", "schema", "template", "theme", "design_asset", "ui_component", "plugin", "extension", "workflow", "policy", "api_contract", "mcp_tool", "agent", "model_output", "edge_bundle", "container_image", "script", "binary"]
+        },
+        "version": { "type": "string" },
+        "hash": { "type": "string" },
+        "isExecutable": { "type": "boolean" },
+        "runtimeImpact": { "type": "string", "enum": ["none", "content_only", "ui_only", "data_access", "network_access", "runtime_execution", "privileged_execution"] }
+      }
+    },
+    "publisher": {
+      "type": "object",
+      "required": ["publisherId", "publisherType", "trustScore"],
+      "properties": {
+        "publisherId": { "type": "string" },
+        "publisherType": { "type": "string", "enum": ["author", "publisher", "journal", "institution", "platform", "registry", "developer", "agent", "automation"] },
+        "identityVerified": { "type": "boolean" },
+        "trustScore": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "required": ["commonChecks", "executableChecks"],
+      "properties": {
+        "commonChecks": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["schema_valid", "metadata_complete", "license_present", "attribution_complete", "provenance_present", "content_hash_present", "signature_valid", "publisher_identity_verified", "publisher_trust_score_met", "protocol_version_recorded", "policy_decision_recorded", "audit_event_recorded"] }
+        },
+        "executableChecks": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["sbom_present", "slsa_level_recorded", "vulnerability_scan_passed", "malware_scan_passed", "secret_scan_passed", "dependency_license_check_passed", "container_image_signed", "provenance_attestation_valid", "sandbox_required", "permission_review_passed", "network_policy_defined", "runtime_policy_defined", "least_privilege_verified", "rollback_plan_present"] }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": ["result", "decidedAt"],
+      "properties": {
+        "result": { "type": "string", "enum": ["allow", "allow_with_warning", "require_review", "block"] },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "decidedAt": { "type": "string", "format": "date-time" },
+        "decidedBy": { "type": "string" }
+      }
+    }
+  }
+}

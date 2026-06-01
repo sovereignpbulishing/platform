@@ -1,0 +1,16 @@
+{
+  "name": "sovereign-publishing-platform",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Open-core sovereign publishing platform validation foundation.",
+  "type": "module",
+  "scripts": {
+    "validate": "node tools/validation/validate-artifacts.mjs",
+    "validate:artifacts": "node tools/validation/validate-artifacts.mjs examples/artifacts",
+    "ci": "npm run validate:artifacts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "Apache-2.0"
+}

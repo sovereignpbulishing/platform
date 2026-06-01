@@ -1,0 +1,45 @@
+{
+  "protocol": {
+    "name": "UniversalArtifactPublishingProtocol",
+    "version": "0.1.0",
+    "purpose": "artifact_publishing",
+    "compatibleWith": ["schema.org CreativeWork JSON-LD"]
+  },
+  "artifact": {
+    "artifactId": "work_example_001",
+    "artifactType": "creative_work",
+    "version": "0.1.0",
+    "hash": "sha256:example-content-hash",
+    "isExecutable": false,
+    "runtimeImpact": "content_only"
+  },
+  "publisher": {
+    "publisherId": "publisher_example_001",
+    "publisherType": "publisher",
+    "identityVerified": true,
+    "trustScore": 90
+  },
+  "checks": {
+    "commonChecks": [
+      "schema_valid",
+      "metadata_complete",
+      "license_present",
+      "attribution_complete",
+      "provenance_present",
+      "content_hash_present",
+      "signature_valid",
+      "publisher_identity_verified",
+      "publisher_trust_score_met",
+      "protocol_version_recorded",
+      "policy_decision_recorded",
+      "audit_event_recorded"
+    ],
+    "executableChecks": []
+  },
+  "decision": {
+    "result": "allow",
+    "reasons": [],
+    "decidedAt": "2026-06-01T00:00:00Z",
+    "decidedBy": "validation-ci"
+  }
+}

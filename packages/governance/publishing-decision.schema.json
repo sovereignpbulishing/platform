@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/publishing-decision.json",
+  "title": "Publishing Decision",
+  "type": "object",
+  "required": ["decisionId", "gate", "subject", "inputs", "policies", "scores", "outcome", "audit"],
+  "properties": {
+    "decisionId": { "type": "string" },
+    "gate": { "type": "string", "enum": ["draft_save", "review_submit", "editorial_approval", "publish_request", "publish_approval", "edge_bundle_create", "cdn_push", "registry_publish", "correction", "retraction", "commerce_release"] },
+    "subject": {
+      "type": "object",
+      "required": ["subjectId", "subjectType", "version"],
+      "properties": {
+        "subjectId": { "type": "string" },
+        "subjectType": { "type": "string", "enum": ["creative_work", "agent_blueprint", "agent_package", "plugin", "template", "workflow", "policy", "dataset", "media", "edge_bundle"] },
+        "version": { "type": "string" },
+        "hash": { "type": "string" },
+        "signatureStatus": { "type": "string", "enum": ["valid", "invalid", "missing", "expired", "revoked", "not_required"] }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "properties": {
+        "actorIds": { "type": "array", "items": { "type": "string" } },
+        "toolIds": { "type": "array", "items": { "type": "string" } },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } },
+        "validationRefs": { "type": "array", "items": { "type": "string" } },
+        "approvalRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "protocols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "version", "purpose"],
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "purpose": { "type": "string" }
+        }
+      }
+    },
+    "policies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["policyId", "policyVersion", "result"],
+        "properties": {
+          "policyId": { "type": "string" },
+          "policyVersion": { "type": "string" },
+          "engine": { "type": "string", "enum": ["opa", "kyverno", "internal", "manual"] },
+          "result": { "type": "string", "enum": ["pass", "warn", "fail", "not_applicable"] },
+          "reasons": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "scores": {
+      "type": "object",
+      "properties": {
+        "publishScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "artifactTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "authorTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "editorTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "publisherTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "toolTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "sourceVerificationScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "authorityScore": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "required": ["decision", "decidedAt", "decidedBy"],
+      "properties": {
+        "decision": { "type": "string", "enum": ["allow", "allow_with_warning", "require_review", "block"] },
+        "blockingIssues": { "type": "array", "items": { "type": "string" } },
+        "warnings": { "type": "array", "items": { "type": "string" } },
+        "decidedAt": { "type": "string", "format": "date-time" },
+        "decidedBy": { "type": "string" }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": ["auditEventId", "retentionClass"],
+      "properties": {
+        "auditEventId": { "type": "string" },
+        "retentionClass": { "type": "string", "enum": ["standard", "compliance", "legal_hold", "permanent"] },
+        "appealAllowed": { "type": "boolean", "default": true },
+        "publiclyVisible": { "type": "boolean", "default": false }
+      }
+    }
+  }
+}

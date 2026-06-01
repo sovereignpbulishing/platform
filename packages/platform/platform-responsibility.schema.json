@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/platform-responsibility.json",
+  "title": "Platform Responsibility Disclosure Analytics and Optimization",
+  "type": "object",
+  "required": ["tenantId", "platformOperator", "platformDisclosure", "analyticsPolicy", "optimizationPolicy"],
+  "properties": {
+    "tenantId": { "type": "string" },
+    "platformOperator": {
+      "type": "object",
+      "required": ["operatorId", "displayName", "contactUrl"],
+      "properties": {
+        "operatorId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "legalEntityName": { "type": "string" },
+        "contactUrl": { "type": "string" },
+        "privacyContactUrl": { "type": "string" },
+        "abuseContactUrl": { "type": "string" },
+        "securityContactUrl": { "type": "string" }
+      }
+    },
+    "platformResponsibilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "hosting",
+          "availability",
+          "security_controls",
+          "access_control_enforcement",
+          "audit_logging",
+          "privacy_controls",
+          "tenant_isolation",
+          "backup_and_recovery",
+          "policy_enforcement",
+          "abuse_response",
+          "content_labeling_infrastructure",
+          "analytics_governance",
+          "optimization_governance",
+          "registry_integrity",
+          "commerce_infrastructure"
+        ]
+      }
+    },
+    "platformNonResponsibilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "author_opinion",
+          "publisher_editorial_position",
+          "sponsor_claims",
+          "third_party_source_accuracy",
+          "external_link_availability",
+          "user_uploaded_rights_clearance",
+          "tax_or_legal_advice",
+          "medical_or_financial_advice"
+        ]
+      }
+    },
+    "platformDisclosure": {
+      "type": "object",
+      "required": ["displayRequired", "displayText", "machineReadable"],
+      "properties": {
+        "displayRequired": { "type": "boolean" },
+        "displayText": { "type": "string" },
+        "machineReadable": { "type": "boolean", "default": true },
+        "displayLocation": {
+          "type": "string",
+          "enum": ["footer", "about_page", "metadata_panel", "publication_policy_page", "all"]
+        },
+        "lastUpdatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "analyticsPolicy": {
+      "type": "object",
+      "required": ["analyticsEnabled", "consentRequired", "piiCollectionAllowed", "readerSaleAllowed"],
+      "properties": {
+        "analyticsEnabled": { "type": "boolean" },
+        "consentRequired": { "type": "boolean" },
+        "piiCollectionAllowed": { "type": "boolean" },
+        "readerSaleAllowed": { "type": "boolean", "default": false },
+        "allowedMetrics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "page_views",
+              "unique_visits",
+              "reading_time",
+              "scroll_depth",
+              "referrer",
+              "search_terms",
+              "conversion_events",
+              "citation_exports",
+              "downloads",
+              "shares",
+              "comments",
+              "subscriptions",
+              "commerce_events",
+              "accessibility_events",
+              "performance_metrics"
+            ]
+          }
+        },
+        "retentionDays": { "type": "integer", "minimum": 0 },
+        "aggregationLevel": {
+          "type": "string",
+          "enum": ["anonymous", "pseudonymous", "tenant_level", "work_level", "user_level"]
+        },
+        "exportAllowed": { "type": "boolean", "default": true },
+        "deletionSupported": { "type": "boolean", "default": true }
+      }
+    },
+    "optimizationPolicy": {
+      "type": "object",
+      "required": ["optimizationEnabled", "humanOverrideAvailable", "darkPatternsProhibited"],
+      "properties": {
+        "optimizationEnabled": { "type": "boolean" },
+        "optimizationGoals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "readability",
+              "accessibility",
+              "discovery",
+              "performance",
+              "conversion",
+              "engagement",
+              "retention",
+              "revenue",
+              "citation_quality",
+              "source_quality",
+              "community_health"
+            ]
+          }
+        },
+        "humanOverrideAvailable": { "type": "boolean" },
+        "darkPatternsProhibited": { "type": "boolean", "default": true },
+        "aiOptimizationDisclosureRequired": { "type": "boolean", "default": true },
+        "experimentationAllowed": { "type": "boolean", "default": false },
+        "experimentConsentRequired": { "type": "boolean", "default": true },
+        "excludedOptimizationTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "misleading_headlines",
+              "undisclosed_sponsored_ranking",
+              "addictive_loops",
+              "forced_continuity",
+              "deceptive_paywalls",
+              "manipulative_recommendations",
+              "sensitive_attribute_targeting"
+            ]
+          }
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "auditLoggingEnabled": { "type": "boolean", "default": true },
+        "policyChangesLogged": { "type": "boolean", "default": true },
+        "analyticsAccessLogged": { "type": "boolean", "default": true },
+        "optimizationChangesLogged": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}

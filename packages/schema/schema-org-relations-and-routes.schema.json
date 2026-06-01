@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/schema-org-relations-and-routes.json",
+  "title": "Schema.org Relations and Routes",
+  "type": "object",
+  "required": ["relationMap", "routes"],
+  "properties": {
+    "relationMap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platformPredicate", "schemaOrgProperty", "subjectTypes", "objectTypes"],
+        "properties": {
+          "platformPredicate": { "type": "string" },
+          "schemaOrgProperty": { "type": "string" },
+          "subjectTypes": { "type": "array", "items": { "type": "string" } },
+          "objectTypes": { "type": "array", "items": { "type": "string" } },
+          "inversePredicate": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["routeId", "routeType", "path", "surface", "resourceType"],
+        "properties": {
+          "routeId": { "type": "string" },
+          "routeType": { "type": "string", "enum": ["web", "api", "mcp_resource", "feed", "sitemap", "canonical", "admin", "registry", "commerce", "distribution", "projection"] },
+          "path": { "type": "string" },
+          "surface": { "type": "string", "enum": ["web", "mobile", "api", "mcp", "rss", "atom", "json_ld", "sitemap", "newsletter", "search_index", "agent_index", "kiosk", "iot", "ar", "vr", "voice"] },
+          "resourceType": { "type": "string", "enum": ["CreativeWork", "Article", "Book", "Dataset", "MediaObject", "Person", "Organization", "Publication", "Journal", "Author", "Publisher", "Sponsor", "RegistryPackage", "Template", "Plugin", "Workflow", "Policy", "Decision", "Projection", "DistributionReceipt"] },
+          "schemaOrgType": { "type": "string" },
+          "canonical": { "type": "boolean", "default": false },
+          "requiresAuth": { "type": "boolean", "default": false },
+          "preserveTrustMetadata": { "type": "boolean", "default": true },
+          "preserveLicenseMetadata": { "type": "boolean", "default": true },
+          "preserveAiDisclosure": { "type": "boolean", "default": true },
+          "cachePolicy": { "type": "string", "enum": ["no_cache", "short", "standard", "long", "immutable"] }
+        }
+      }
+    }
+  }
+}

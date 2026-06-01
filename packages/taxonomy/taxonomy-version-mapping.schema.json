@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/taxonomy-version-mapping.json",
+  "title": "Taxonomy Version Mapping with Admin Workflow",
+  "type": "object",
+  "required": ["mappingId", "sourceTaxonomy", "targetTaxonomy", "termMappings", "adminWorkflow", "status", "audit"],
+  "properties": {
+    "mappingId": { "type": "string" },
+    "sourceTaxonomy": { "$ref": "#/$defs/taxonomyRef" },
+    "targetTaxonomy": { "$ref": "#/$defs/taxonomyRef" },
+    "termMappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sourceTermId", "targetTermId", "mappingType", "confidence", "reviewStatus"],
+        "properties": {
+          "sourceTermId": { "type": "string" },
+          "sourceTermLabel": { "type": "string" },
+          "targetTermId": { "type": "string" },
+          "targetTermLabel": { "type": "string" },
+          "mappingType": { "type": "string", "enum": ["exact_match", "close_match", "broader_match", "narrower_match", "related_match", "split", "merge", "deprecated", "no_match", "admin_override"] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 100 },
+          "reviewStatus": { "type": "string", "enum": ["machine_suggested", "human_review_required", "approved", "rejected", "deprecated", "superseded"] },
+          "migrationAction": { "type": "string", "enum": ["keep", "replace", "split", "merge", "deprecate", "remove", "manual_review"] },
+          "adminNotes": { "type": "string" },
+          "reviewerId": { "type": "string" },
+          "approvedAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "adminWorkflow": {
+      "type": "object",
+      "properties": {
+        "adminUpdateAllowed": { "type": "boolean", "default": true },
+        "bulkUpdateAllowed": { "type": "boolean", "default": true },
+        "approvalRequired": { "type": "boolean", "default": true },
+        "separationOfDutyRequired": { "type": "boolean", "default": true },
+        "previewImpactRequired": { "type": "boolean", "default": true },
+        "rollbackSupported": { "type": "boolean", "default": true },
+        "publishAsNewVersion": { "type": "boolean", "default": true },
+        "allowedActions": { "type": "array", "items": { "type": "string", "enum": ["suggest", "approve", "reject", "override", "bulk_update", "publish_version", "rollback", "deprecate", "export", "import"] } }
+      }
+    },
+    "impactPreview": {
+      "type": "object",
+      "properties": {
+        "affectedWorks": { "type": "integer", "minimum": 0 },
+        "affectedPublications": { "type": "integer", "minimum": 0 },
+        "affectedRoutes": { "type": "integer", "minimum": 0 },
+        "affectedDiscoveryIndexes": { "type": "integer", "minimum": 0 },
+        "reindexRequired": { "type": "boolean" },
+        "adminWarning": { "type": "string" }
+      }
+    },
+    "status": { "type": "string", "enum": ["draft", "review", "approved", "published", "deprecated", "rolled_back"] },
+    "audit": {
+      "type": "object",
+      "required": ["createdBy", "createdAt"],
+      "properties": {
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedBy": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "approvedBy": { "type": "string" },
+        "publishedBy": { "type": "string" },
+        "auditEventId": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "taxonomyRef": {
+      "type": "object",
+      "required": ["taxonomyId", "version"],
+      "properties": {
+        "taxonomyId": { "type": "string" },
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "publisher": { "type": "string" },
+        "uri": { "type": "string" }
+      }
+    }
+  }
+}

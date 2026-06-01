@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/brand-guidelines.json",
+  "title": "Brand Guidelines Assets and UI Mockups",
+  "type": "object",
+  "required": ["brandId", "brandName", "owner", "guidelines", "assets", "uiMockups"],
+  "properties": {
+    "brandId": { "type": "string" },
+    "brandName": { "type": "string" },
+    "owner": {
+      "type": "object",
+      "required": ["ownerId", "ownerType", "displayName"],
+      "properties": {
+        "ownerId": { "type": "string" },
+        "ownerType": { "type": "string", "enum": ["tenant", "publication", "journal", "community", "campaign", "sponsor", "platform"] },
+        "displayName": { "type": "string" }
+      }
+    },
+    "guidelines": {
+      "type": "object",
+      "properties": {
+        "mission": { "type": "string" },
+        "voice": { "type": "string" },
+        "tone": { "type": "string" },
+        "logoUsage": { "type": "string" },
+        "colorUsage": { "type": "string" },
+        "typographyUsage": { "type": "string" },
+        "imageryUsage": { "type": "string" },
+        "accessibilityRules": { "type": "string" }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["assetId", "assetType", "license"],
+        "properties": {
+          "assetId": { "type": "string" },
+          "assetType": { "type": "string", "enum": ["logo", "icon", "font", "color_palette", "illustration", "image", "video", "template", "mockup"] },
+          "name": { "type": "string" },
+          "uri": { "type": "string" },
+          "license": { "type": "string" },
+          "creditLine": { "type": "string" },
+          "version": { "type": "string" },
+          "approved": { "type": "boolean" }
+        }
+      }
+    },
+    "uiMockups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["mockupId", "screen", "status"],
+        "properties": {
+          "mockupId": { "type": "string" },
+          "screen": { "type": "string", "enum": ["home", "reader", "article", "journal", "author_profile", "publisher_profile", "sponsor_profile", "submission", "review", "editorial_dashboard", "analytics", "registry", "commerce", "settings", "trust_panel"] },
+          "device": { "type": "string", "enum": ["mobile", "tablet", "desktop", "responsive"] },
+          "sourceTool": { "type": "string", "enum": ["figma", "penpot", "storybook", "code", "image", "other"] },
+          "sourceUri": { "type": "string" },
+          "status": { "type": "string", "enum": ["draft", "review", "approved", "deprecated"] },
+          "accessibilityReviewed": { "type": "boolean" },
+          "brandReviewed": { "type": "boolean" },
+          "implementationStatus": { "type": "string", "enum": ["not_started", "in_progress", "implemented", "validated"] }
+        }
+      }
+    }
+  }
+}

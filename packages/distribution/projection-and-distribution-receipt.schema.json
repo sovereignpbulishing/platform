@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/projection-and-distribution-receipt.json",
+  "title": "Projection and Distribution Receipt",
+  "type": "object",
+  "required": ["projectionId", "sourceArtifact", "projection", "distributionReceipt"],
+  "properties": {
+    "projectionId": { "type": "string" },
+    "sourceArtifact": {
+      "type": "object",
+      "required": ["artifactId", "version", "hash"],
+      "properties": {
+        "artifactId": { "type": "string" },
+        "version": { "type": "string" },
+        "hash": { "type": "string" },
+        "canonicalUrl": { "type": "string" }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "required": ["surface", "format", "status"],
+      "properties": {
+        "surface": { "type": "string", "enum": ["web", "mobile", "newsletter", "rss", "api", "mcp", "pdf", "epub", "search_index", "agent_index", "social_card", "kiosk", "signage", "iot", "ar", "vr", "voice"] },
+        "format": { "type": "string", "enum": ["html", "json_ld", "markdown", "pdf", "epub", "rss", "atom", "json", "text", "image", "audio", "video", "glb", "gltf", "bundle"] },
+        "language": { "type": "string" },
+        "region": { "type": "string" },
+        "deviceClass": { "type": "string" },
+        "status": { "type": "string", "enum": ["created", "validated", "distributed", "failed", "revoked", "expired"] },
+        "licensePreserved": { "type": "boolean", "default": true },
+        "attributionPreserved": { "type": "boolean", "default": true },
+        "trustMetadataPreserved": { "type": "boolean", "default": true },
+        "aiDisclosurePreserved": { "type": "boolean", "default": true }
+      }
+    },
+    "distributionReceipt": {
+      "type": "object",
+      "required": ["receiptId", "channel", "adapter", "status", "timestamp"],
+      "properties": {
+        "receiptId": { "type": "string" },
+        "channel": { "type": "string", "enum": ["first_party_site", "global_cdn", "regional_edge", "newsletter", "rss", "activitypub", "social", "search_engine", "agent_engine", "citation_index", "marketplace", "api", "webhook", "offline_bundle", "ar_vr_surface"] },
+        "adapter": {
+          "type": "object",
+          "required": ["adapterId", "adapterVersion"],
+          "properties": {
+            "adapterId": { "type": "string" },
+            "adapterVersion": { "type": "string" },
+            "vendor": { "type": "string" },
+            "protocol": { "type": "string" },
+            "protocolVersion": { "type": "string" }
+          }
+        },
+        "status": { "type": "string", "enum": ["pending", "delivered", "failed", "blocked", "revoked", "expired"] },
+        "targetUrl": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "policyDecisionId": { "type": "string" },
+        "traceId": { "type": "string" }
+      }
+    }
+  }
+}

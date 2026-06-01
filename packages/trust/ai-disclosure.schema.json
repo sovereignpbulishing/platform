@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/ai-disclosure.json",
+  "title": "Originality and AI Disclosure",
+  "type": "object",
+  "required": ["workId", "originType", "humanAccountableParty", "disclosureText"],
+  "properties": {
+    "workId": { "type": "string" },
+    "originType": {
+      "type": "string",
+      "enum": [
+        "original_human_post",
+        "human_authored_ai_assisted",
+        "ai_generated_human_reviewed",
+        "ai_generated_minimally_reviewed",
+        "ai_translated",
+        "ai_summarized",
+        "ai_remixed",
+        "imported_or_republished",
+        "derivative_work"
+      ]
+    },
+    "aiInvolvement": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "none",
+          "ideation",
+          "outline",
+          "drafting",
+          "rewriting",
+          "editing",
+          "copyediting",
+          "translation",
+          "summarization",
+          "fact_checking",
+          "citation_suggestion",
+          "seo_metadata",
+          "image_generation",
+          "audio_generation",
+          "video_generation",
+          "code_generation",
+          "data_analysis"
+        ]
+      }
+    },
+    "llmRoles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "modelName"],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": ["tool", "assistant", "editor", "translator", "summarizer", "reviewer", "co_author", "author"]
+          },
+          "modelName": { "type": "string" },
+          "modelProvider": { "type": "string" },
+          "modelVersion": { "type": "string" },
+          "usageDescription": { "type": "string" },
+          "promptAvailable": { "type": "boolean", "default": false },
+          "outputReviewedByHuman": { "type": "boolean", "default": true }
+        }
+      }
+    },
+    "humanAccountableParty": {
+      "type": "object",
+      "required": ["partyId", "displayName", "accountabilityRole"],
+      "properties": {
+        "partyId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "accountabilityRole": {
+          "type": "string",
+          "enum": ["author", "editor", "publisher", "reviewer", "institution_admin"]
+        }
+      }
+    },
+    "llmAsAuthorAllowed": { "type": "boolean", "default": false },
+    "llmAsAuthorPolicy": {
+      "type": "string",
+      "enum": ["not_allowed", "allowed_with_human_accountability", "allowed_for_machine_generated_records_only"]
+    },
+    "originalityAssessment": {
+      "type": "object",
+      "properties": {
+        "isOriginal": { "type": "boolean" },
+        "similarityScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "plagiarismCheckStatus": { "type": "string", "enum": ["not_checked", "passed", "warning", "failed"] },
+        "sourceWorks": { "type": "array", "items": { "type": "string" } },
+        "derivativeDisclosure": { "type": "string" }
+      }
+    },
+    "disclosureText": { "type": "string" },
+    "publicBadge": {
+      "type": "string",
+      "enum": ["original", "ai_assisted", "ai_generated", "ai_edited", "ai_translated", "republished", "derivative"]
+    },
+    "reviewRequired": { "type": "boolean", "default": true },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

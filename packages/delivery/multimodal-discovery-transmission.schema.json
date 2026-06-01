@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/multimodal-discovery-transmission.json",
+  "title": "Multimodal Discovery and Transmission",
+  "type": "object",
+  "required": ["workId", "modalities", "discovery", "transmission", "governance"],
+  "properties": {
+    "workId": { "type": "string" },
+    "modalities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["text", "image", "audio", "video", "code", "dataset", "chart", "map", "3d_model", "ar_scene", "vr_scene", "iot_signal", "sensor_stream", "structured_data", "interactive_widget"]
+      }
+    },
+    "discovery": {
+      "type": "object",
+      "properties": {
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["search_engine", "agent_engine", "answer_engine", "social_feed", "rss", "newsletter", "knowledge_graph", "registry", "marketplace", "citation_index", "voice_assistant", "ar_vr_surface"]
+          }
+        },
+        "schemaOrgJsonLdRequired": { "type": "boolean", "default": true },
+        "canonicalUrlRequired": { "type": "boolean", "default": true },
+        "openGraphRequired": { "type": "boolean", "default": true },
+        "hreflangRequired": { "type": "boolean", "default": true },
+        "agentReadableSummaryRequired": { "type": "boolean", "default": true },
+        "transcriptRequiredForAudioVideo": { "type": "boolean", "default": true },
+        "altTextRequiredForImages": { "type": "boolean", "default": true },
+        "captionRequiredForVideo": { "type": "boolean", "default": true },
+        "citationMetadataRequired": { "type": "boolean", "default": true },
+        "trustMetadataRequired": { "type": "boolean", "default": true }
+      }
+    },
+    "transmission": {
+      "type": "object",
+      "properties": {
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["global_cdn", "regional_edge", "self_hosted_edge", "web", "mobile", "newsletter", "api", "rss", "iot", "ar", "vr", "kiosk", "signage", "voice"]
+          }
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["html", "json_ld", "markdown", "pdf", "epub", "audio", "video", "image", "webp", "avif", "glb", "gltf", "text", "json", "feed", "bundle"]
+          }
+        },
+        "adaptiveDeliveryEnabled": { "type": "boolean", "default": true },
+        "bandwidthAwareDelivery": { "type": "boolean", "default": true },
+        "deviceAwareRendering": { "type": "boolean", "default": true },
+        "cdnCacheable": { "type": "boolean", "default": true },
+        "invalidationRequiredOnCorrection": { "type": "boolean", "default": true },
+        "invalidationRequiredOnRetraction": { "type": "boolean", "default": true }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "licenseRequired": { "type": "boolean", "default": true },
+        "attributionRequired": { "type": "boolean", "default": true },
+        "aiDisclosureRequired": { "type": "boolean", "default": true },
+        "sourceVerificationRequired": { "type": "boolean", "default": true },
+        "privacyPolicyRequired": { "type": "boolean", "default": true },
+        "preciseLocationConsentRequired": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}

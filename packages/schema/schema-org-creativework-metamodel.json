@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/schema-org-creativework-metamodel.json",
+  "title": "Schema.org CreativeWork JSON-LD Metamodel Alignment",
+  "type": "object",
+  "required": ["@context", "@type", "@id", "name", "platform"],
+  "properties": {
+    "@context": {
+      "oneOf": [
+        { "const": "https://schema.org" },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "const": "https://schema.org" },
+              { "type": "object" }
+            ]
+          }
+        }
+      ]
+    },
+    "@type": {
+      "type": "string",
+      "enum": [
+        "CreativeWork",
+        "Article",
+        "BlogPosting",
+        "NewsArticle",
+        "ScholarlyArticle",
+        "Report",
+        "Book",
+        "Chapter",
+        "Review",
+        "ClaimReview",
+        "Dataset",
+        "DataCatalog",
+        "SoftwareSourceCode",
+        "MediaObject",
+        "ImageObject",
+        "AudioObject",
+        "VideoObject",
+        "PodcastEpisode",
+        "Course",
+        "HowTo",
+        "FAQPage",
+        "QAPage",
+        "WebPage",
+        "WebSite",
+        "CreativeWorkSeries"
+      ]
+    },
+    "@id": { "type": "string" },
+    "name": { "type": "string" },
+    "headline": { "type": "string" },
+    "description": { "type": "string" },
+    "abstract": { "type": "string" },
+    "inLanguage": { "type": "string" },
+    "isAccessibleForFree": { "type": "boolean" },
+    "dateCreated": { "type": "string" },
+    "dateModified": { "type": "string" },
+    "datePublished": { "type": "string" },
+    "version": { "type": "string" },
+    "author": { "$ref": "#/$defs/partyRef" },
+    "editor": { "$ref": "#/$defs/partyRef" },
+    "publisher": { "$ref": "#/$defs/partyRef" },
+    "funder": { "$ref": "#/$defs/partyRef" },
+    "sponsor": { "$ref": "#/$defs/partyRef" },
+    "contributor": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/partyRef" }
+    },
+    "copyrightHolder": { "$ref": "#/$defs/partyRef" },
+    "copyrightYear": { "type": "integer" },
+    "license": { "type": "string" },
+    "usageInfo": { "type": "string" },
+    "conditionsOfAccess": { "type": "string" },
+    "acquireLicensePage": { "type": "string" },
+    "creditText": { "type": "string" },
+    "citation": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "isBasedOn": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "sameAs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "identifier": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["propertyID", "value"],
+        "properties": {
+          "@type": { "const": "PropertyValue" },
+          "propertyID": { "type": "string", "enum": ["doi", "isbn", "issn", "orcid", "ror", "did", "hash", "internal_id", "registry_id"] },
+          "value": { "type": "string" }
+        }
+      }
+    },
+    "encoding": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mediaObject" }
+    },
+    "spatialCoverage": { "$ref": "#/$defs/placeRef" },
+    "temporalCoverage": { "type": "string" },
+    "audience": { "$ref": "#/$defs/audienceRef" },
+    "platform": {
+      "type": "object",
+      "required": ["metamodelVersion", "artifact", "trust", "validation"],
+      "properties": {
+        "metamodelVersion": { "type": "string" },
+        "canonicalType": { "type": "string" },
+        "artifact": {
+          "type": "object",
+          "required": ["artifactId", "artifactType", "version", "protocol"],
+          "properties": {
+            "artifactId": { "type": "string" },
+            "artifactType": { "type": "string", "enum": ["creative_work", "agent_blueprint", "agent_manifest", "agent_package", "template", "plugin", "workflow", "policy", "dataset_snapshot", "media_asset", "edge_bundle"] },
+            "version": { "type": "string" },
+            "protocol": {
+              "type": "object",
+              "required": ["name", "version"],
+              "properties": {
+                "name": { "type": "string" },
+                "version": { "type": "string" },
+                "profile": { "type": "string" }
+              }
+            },
+            "hash": { "type": "string" },
+            "signatureStatus": { "type": "string", "enum": ["valid", "invalid", "missing", "expired", "revoked", "not_required"] }
+          }
+        },
+        "origin": {
+          "type": "object",
+          "properties": {
+            "originType": { "type": "string", "enum": ["original_human_post", "human_authored_ai_assisted", "ai_generated_human_reviewed", "ai_generated_minimally_reviewed", "ai_translated", "ai_summarized", "ai_remixed", "imported_or_republished", "derivative_work"] },
+            "aiDisclosureRequired": { "type": "boolean" },
+            "humanAccountableParty": { "type": "string" }
+          }
+        },
+        "trust": {
+          "type": "object",
+          "properties": {
+            "contentTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+            "authorTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+            "editorTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+            "publisherTrustScore": { "type": "number", "minimum": 0, "maximum": 100 },
+            "sourceVerificationScore": { "type": "number", "minimum": 0, "maximum": 100 },
+            "authorityScore": { "type": "number", "minimum": 0, "maximum": 100 }
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "publishScore": { "type": "number", "minimum": 0, "maximum": 100 },
+            "validationStatus": { "type": "string", "enum": ["draft", "valid", "valid_with_warning", "review_required", "blocked", "published", "retracted"] },
+            "lastValidatedAt": { "type": "string", "format": "date-time" },
+            "validationProtocolVersion": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "partyRef": {
+      "type": "object",
+      "required": ["@type", "name"],
+      "properties": {
+        "@type": { "type": "string", "enum": ["Person", "Organization"] },
+        "@id": { "type": "string" },
+        "name": { "type": "string" },
+        "url": { "type": "string" },
+        "identifier": { "type": "string" },
+        "roleName": { "type": "string" }
+      }
+    },
+    "mediaObject": {
+      "type": "object",
+      "required": ["@type", "contentUrl"],
+      "properties": {
+        "@type": { "type": "string", "enum": ["MediaObject", "ImageObject", "AudioObject", "VideoObject", "DataDownload"] },
+        "contentUrl": { "type": "string" },
+        "encodingFormat": { "type": "string" },
+        "contentSize": { "type": "string" },
+        "sha256": { "type": "string" }
+      }
+    },
+    "placeRef": {
+      "type": "object",
+      "properties": {
+        "@type": { "type": "string", "enum": ["Place", "AdministrativeArea", "GeoCoordinates", "GeoShape"] },
+        "name": { "type": "string" },
+        "geo": { "type": "object" }
+      }
+    },
+    "audienceRef": {
+      "type": "object",
+      "properties": {
+        "@type": { "const": "Audience" },
+        "audienceType": { "type": "string" },
+        "geographicArea": { "$ref": "#/$defs/placeRef" }
+      }
+    }
+  }
+}

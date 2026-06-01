@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sovereignpublishing.dev/schemas/publishing-domain-profiles.json",
+  "title": "Publishing Domain Profiles",
+  "type": "object",
+  "required": ["profileId", "profileType", "schemaOrgTypes", "governance", "delivery"],
+  "properties": {
+    "profileId": { "type": "string" },
+    "profileType": {
+      "type": "string",
+      "enum": ["business_publishing", "news", "entertainment", "live_video", "live_audio", "sports", "events", "research", "journal", "education", "community"]
+    },
+    "schemaOrgTypes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Article", "NewsArticle", "BlogPosting", "Report", "Review", "ClaimReview", "VideoObject", "AudioObject", "BroadcastEvent", "Event", "PodcastEpisode", "CreativeWorkSeries", "LiveBlogPosting", "Course", "ScholarlyArticle"]
+      }
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "editorialReviewRequired": { "type": "boolean", "default": true },
+        "factCheckRequired": { "type": "boolean", "default": false },
+        "sourceVerificationRequired": { "type": "boolean", "default": true },
+        "sponsorDisclosureRequired": { "type": "boolean", "default": true },
+        "aiDisclosureRequired": { "type": "boolean", "default": true },
+        "correctionPolicyRequired": { "type": "boolean", "default": true },
+        "retractionPolicyRequired": { "type": "boolean", "default": true },
+        "ageRatingRequired": { "type": "boolean", "default": false },
+        "rightsClearanceRequired": { "type": "boolean", "default": true }
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "properties": {
+        "supportsLive": { "type": "boolean", "default": false },
+        "supportsOnDemand": { "type": "boolean", "default": true },
+        "supportsClips": { "type": "boolean", "default": false },
+        "supportsTranscripts": { "type": "boolean", "default": true },
+        "supportsCaptions": { "type": "boolean", "default": true },
+        "supportsBreakingUpdates": { "type": "boolean", "default": false },
+        "supportsEmbargo": { "type": "boolean", "default": true },
+        "supportsGeoRights": { "type": "boolean", "default": true },
+        "supportsGlobalCdn": { "type": "boolean", "default": true },
+        "supportsOfflineBundles": { "type": "boolean", "default": true }
+      }
+    },
+    "commerce": {
+      "type": "object",
+      "properties": {
+        "subscriptionsAllowed": { "type": "boolean", "default": true },
+        "payPerViewAllowed": { "type": "boolean", "default": false },
+        "sponsorshipAllowed": { "type": "boolean", "default": true },
+        "adsAllowed": { "type": "boolean", "default": false },
+        "licensingAllowed": { "type": "boolean", "default": true },
+        "syndicationAllowed": { "type": "boolean", "default": true }
+      }
+    },
+    "analytics": {
+      "type": "object",
+      "properties": {
+        "privacyCentricAnalyticsRequired": { "type": "boolean", "default": true },
+        "engagementMeasurementAllowed": { "type": "boolean", "default": true },
+        "liveConcurrentViewersAllowed": { "type": "boolean", "default": true },
+        "qualityWeightedEngagement": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}

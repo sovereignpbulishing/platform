@@ -1,0 +1,100 @@
+-- Identity domain schema
+-- People, organizations, profiles, credentials, memberships, and role bindings.
+
+DEFINE TABLE identity SCHEMAFULL;
+DEFINE FIELD tenant ON identity TYPE option<record<tenant>>;
+DEFINE FIELD identity_type ON identity TYPE string;
+DEFINE FIELD display_name ON identity TYPE string ASSERT string::len($value) > 0;
+DEFINE FIELD handle ON identity TYPE option<string>;
+DEFINE FIELD email ON identity TYPE option<string>;
+DEFINE FIELD status ON identity TYPE string DEFAULT 'active';
+DEFINE FIELD verified ON identity TYPE bool DEFAULT false;
+DEFINE FIELD trust_score ON identity TYPE number DEFAULT 50;
+DEFINE FIELD created_at ON identity TYPE datetime DEFAULT time::now();
+DEFINE FIELD updated_at ON identity TYPE datetime VALUE time::now();
+DEFINE INDEX identity_handle_unique ON identity COLUMNS tenant, handle UNIQUE;
+DEFINE INDEX identity_email_unique ON identity COLUMNS tenant, email UNIQUE;
+
+DEFINE TABLE organization SCHEMAFULL;
+DEFINE FIELD tenant ON organization TYPE option<record<tenant>>;
+DEFINE FIELD name ON organization TYPE string ASSERT string::len($value) > 0;
+DEFINE FIELD org_type ON organization TYPE string;
+DEFINE FIELD domain ON organization TYPE option<string>;
+DEFINE FIELD url ON organization TYPE option<string>;
+DEFINE FIELD verified ON organization TYPE bool DEFAULT false;
+DEFINE FIELD authority_score ON organization TYPE number DEFAULT 50;
+DEFINE FIELD trust_score ON organization TYPE number DEFAULT 50;
+DEFINE FIELD created_at ON organization TYPE datetime DEFAULT time::now();
+DEFINE FIELD updated_at ON organization TYPE datetime VALUE time::now();
+DEFINE INDEX organization_domain ON organization COLUMNS domain;
+
+DEFINE TABLE profile SCHEMAFULL;
+DEFINE FIELD tenant ON profile TYPE record<tenant>;
+DEFINE FIELD identity ON profile TYPE record<identity>;
+DEFINE FIELD profile_type ON profile TYPE string;
+DEFINE FIELD title ON profile TYPE option<string>;
+DEFINE FIELD bio ON profile TYPE option<string>;
+DEFINE FIELD avatar_url ON profile TYPE option<string>;
+DEFINE FIELD public_url ON profile TYPE option<string>;
+DEFINE FIELD affiliation ON profile TYPE option<string>;
+DEFINE FIELD expertise ON profile TYPE array<string> DEFAULT [];
+DEFINE FIELD languages ON profile TYPE array<string> DEFAULT [];
+DEFINE FIELD is_public ON profile TYPE bool DEFAULT true;
+DEFINE FIELD created_at ON profile TYPE datetime DEFAULT time::now();
+DEFINE FIELD updated_at ON profile TYPE datetime VALUE time::now();
+DEFINE INDEX profile_identity_type ON profile COLUMNS tenant, identity, profile_type UNIQUE;
+
+DEFINE TABLE credential SCHEMAFULL;
+DEFINE FIELD tenant ON credential TYPE option<record<tenant>>;
+DEFINE FIELD identity ON credential TYPE record<identity>;
+DEFINE FIELD credential_type ON credential TYPE string;
+DEFINE FIELD issuer ON credential TYPE option<string>;
+DEFINE FIELD subject ON credential TYPE string;
+DEFINE FIELD value ON credential TYPE string;
+DEFINE FIELD verified ON credential TYPE bool DEFAULT false;
+DEFINE FIELD verification_method ON credential TYPE option<string>;
+DEFINE FIELD issued_at ON credential TYPE option<datetime>;
+DEFINE FIELD expires_at ON credential TYPE option<datetime>;
+DEFINE FIELD created_at ON credential TYPE datetime DEFAULT time::now();
+DEFINE INDEX credential_identity_type ON credential COLUMNS identity, credential_type;
+DEFINE INDEX credential_subject_value ON credential COLUMNS credential_type, value UNIQUE;
+
+DEFINE TABLE membership SCHEMAFULL;
+DEFINE FIELD tenant ON membership TYPE record<tenant>;
+DEFINE FIELD identity ON membership TYPE record<identity>;
+DEFINE FIELD organization ON membership TYPE option<record<organization>>;
+DEFINE FIELD publication ON membership TYPE option<record<publication>>;
+DEFINE FIELD role ON membership TYPE string;
+DEFINE FIELD status ON membership TYPE string DEFAULT 'active';
+DEFINE FIELD starts_at ON membership TYPE option<datetime>;
+DEFINE FIELD ends_at ON membership TYPE option<datetime>;
+DEFINE FIELD created_at ON membership TYPE datetime DEFAULT time::now();
+DEFINE FIELD updated_at ON membership TYPE datetime VALUE time::now();
+DEFINE INDEX membership_lookup ON membership COLUMNS tenant, identity, role;
+
+DEFINE TABLE role_binding SCHEMAFULL;
+DEFINE FIELD tenant ON role_binding TYPE record<tenant>;
+DEFINE FIELD identity ON role_binding TYPE record<identity>;
+DEFINE FIELD role ON role_binding TYPE string;
+DEFINE FIELD resource_id ON role_binding TYPE string;
+DEFINE FIELD resource_type ON role_binding TYPE string;
+DEFINE FIELD granted_by ON role_binding TYPE option<record<identity>>;
+DEFINE FIELD starts_at ON role_binding TYPE option<datetime>;
+DEFINE FIELD expires_at ON role_binding TYPE option<datetime>;
+DEFINE FIELD status ON role_binding TYPE string DEFAULT 'active';
+DEFINE FIELD created_at ON role_binding TYPE datetime DEFAULT time::now();
+DEFINE INDEX role_binding_resource ON role_binding COLUMNS tenant, resource_id, resource_type, role;
+
+DEFINE TABLE consent SCHEMAFULL;
+DEFINE FIELD tenant ON consent TYPE record<tenant>;
+DEFINE FIELD identity ON consent TYPE option<record<identity>>;
+DEFINE FIELD purpose ON consent TYPE string;
+DEFINE FIELD lawful_basis ON consent TYPE option<string>;
+DEFINE FIELD status ON consent TYPE string DEFAULT 'granted';
+DEFINE FIELD scope ON consent TYPE object DEFAULT {};
+DEFINE FIELD granted_at ON consent TYPE option<datetime>;
+DEFINE FIELD revoked_at ON consent TYPE option<datetime>;
+DEFINE FIELD expires_at ON consent TYPE option<datetime>;
+DEFINE FIELD evidence_ref ON consent TYPE option<string>;
+DEFINE FIELD created_at ON consent TYPE datetime DEFAULT time::now();
+DEFINE INDEX consent_identity_purpose ON consent COLUMNS tenant, identity, purpose;
